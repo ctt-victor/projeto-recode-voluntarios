@@ -32,7 +32,17 @@ export default function Participantes() {
 
   async function salvar(evento) {
     evento.preventDefault();
-    const objeto = { nome, cpf, email, data_nascimento: dataNascimento, telefone, perfil, projeto };
+    
+    
+    const objeto = { 
+      nome, 
+      cpf, 
+      email, 
+      dataNascimento,
+      telefone, 
+      perfil, 
+      projeto 
+    };
 
     const metodo = idEditando ? 'PUT' : 'POST';
     const endpoint = idEditando ? `${URL}/${idEditando}` : URL;
@@ -66,7 +76,7 @@ export default function Participantes() {
     setNome(item.nome);
     setCpf(item.cpf);
     setEmail(item.email);
-    setDataNascimento(item.data_nascimento || '');
+    setDataNascimento(item.dataNascimento || '');
     setTelefone(item.telefone || '');
     setPerfil(item.perfil);
     setProjeto(item.projeto || '');
@@ -85,7 +95,11 @@ export default function Participantes() {
     setModalAberto(false);
   }
 
+  
   const colunasTabela = ["Nome", "CPF", "E-mail", "Nascimento", "Telefone", "Perfil", "Projeto"];
+  
+  
+  const chavesMapeadas = ["nome", "cpf", "email", "dataNascimento", "telefone", "perfil", "projeto"];
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
@@ -138,6 +152,7 @@ export default function Participantes() {
             type="date" 
             value={dataNascimento} 
             onChange={e => setDataNascimento(e.target.value)} 
+            required
             style={{ padding: '8px' }} 
           />
           
@@ -161,6 +176,14 @@ export default function Participantes() {
             <option value="Aluno">Aluno</option>
           </select>
 
+          <input 
+            type="text" 
+            placeholder="Projeto Vinculado" 
+            value={projeto} 
+            onChange={e => setProjeto(e.target.value)} 
+            style={{ padding: '8px' }} 
+          />
+
           <button type="submit" style={{ padding: '10px', background: '#2980b9', color: '#fff', border: 'none', cursor: 'pointer', borderRadius: '4px' }}>
             {idEditando ? 'Atualizar' : 'Salvar'}
           </button>
@@ -169,6 +192,7 @@ export default function Participantes() {
 
       <Tabela 
         colunas={colunasTabela} 
+        chaves={chavesMapeadas}
         dados={lista} 
         onEditar={prepararEdicao} 
         onExcluir={excluir} 
