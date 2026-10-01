@@ -1,20 +1,31 @@
 export default function Modal({ isOpen, onClose, children }) {
-  // Se o modal não estiver aberto, não renderiza nada na tela
+ 
   if (!isOpen) return null;
 
+  
+  const handleFundoClick = (e) => {
+    if (e.target.id === 'modal-container') {
+      onClose();
+    }
+  };
+
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      zIndex: 1000
-    }}>
+    <div 
+      id="modal-container"
+      onClick={handleFundoClick}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1000
+      }}
+    >
       <div style={{
         background: '#fff',
         padding: '20px',
@@ -24,7 +35,7 @@ export default function Modal({ isOpen, onClose, children }) {
         boxShadow: '0 4px 8px rgba(168, 159, 159, 0.2)',
         position: 'relative'
       }}>
-        {/* Botão de Fechar */}
+        {}
         <button 
           onClick={onClose} 
           style={{
@@ -41,7 +52,7 @@ export default function Modal({ isOpen, onClose, children }) {
           &times;
         </button>
 
-        {/* Conteúdo dinâmico que for colocado dentro do Modal */}
+        {}
         <div style={{ marginTop: '10px' }}>
           {children}
         </div>
