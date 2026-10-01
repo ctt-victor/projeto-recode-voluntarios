@@ -3,6 +3,8 @@ package com.example.voluntarios_ods4.controller;
 import com.example.voluntarios_ods4.model.Participante;
 import com.example.voluntarios_ods4.repository.ParticipanteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,18 +22,31 @@ public class ParticipanteController {
     }
 
     @PostMapping
-    public Participante salvar(@RequestBody Participante participante) {
-        return repository.save(participante);
+    public ResponseEntity<Participante> salvar(@RequestBody Participante participante) {
+        Participante novoParticipante = repository.save(participante);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novoParticipante);
     }
 
     @PutMapping("/{id}")
-    public Participante atualizar(@PathVariable Long id, @RequestBody Participante participante) {
-        participante.setId(id);
-        return repository.save(participante);
+    public ResponseEntity<Participante> atualizar(@PathVariable Long id, @RequestBody Participante dadosAtualizados) {
+        return repository.findById(id)
+                .map(participanteExistente -> {
+                    participanteExistente.setNome(dadosAtualizados.getNome());
+                    participanteExistente.setEmail(dadosAtualizados.getEmail());
+                    participanteExistente.setCpf(dadosAtualizados.getCpf());
+                    participanteExistente.setTelefone(dadosAtualizados.getTelefone());
+                    
+                    Participante participanteSalvo = repository.save(participanteExistente);
+                    return ResponseEntity.ok(participanteSalvo);
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public void excluir(@PathVariable Long id) {
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
         repository.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
