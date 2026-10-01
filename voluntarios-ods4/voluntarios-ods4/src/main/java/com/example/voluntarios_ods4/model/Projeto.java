@@ -3,7 +3,7 @@ package com.example.voluntarios_ods4.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "projetos")
+@Table(name = "acoes_sociais")
 public class Projeto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,13 +14,16 @@ public class Projeto {
     @Column(columnDefinition = "TEXT")
     private String descricao;
     
-    @Column(name = "cpf_coordenador")
+    @Column(name = "cpf_coordenador", nullable = false)
     private String cpfCoordenador;
     
+    @Column(nullable = false)
     private String email;
+    
+    @Column(nullable = false)
     private String instituicao;
     
-    @Column(name = "vagas_disponiveis")
+    @Column(name = "vagas_disponiveis", nullable = false)
     private Integer vagasDisponiveis;
 
     // Getters e Setters
