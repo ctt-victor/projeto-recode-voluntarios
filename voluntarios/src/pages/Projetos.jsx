@@ -92,7 +92,6 @@ export default function Projetos() {
     setIdEditando(item.id);
     setTitulo(item.titulo);
     setDescricao(item.descricao || '');
-    // Ajustado para ler as propriedades corretas do back-end
     setCpfCoordenador(item.cpfCoordenador);
     setEmail(item.email);
     setInstituicao(item.instituicao);
@@ -111,7 +110,11 @@ export default function Projetos() {
     setModalAberto(false);
   }
 
+ 
   const colunasTabela = ["Título", "Descrição", "CPF Coordenador", "E-mail", "Instituição", "Vagas"];
+  
+ 
+  const chavesMapeadas = ["titulo", "descricao", "cpfCoordenador", "email", "instituicao", "vagasDisponiveis"];
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
@@ -119,7 +122,7 @@ export default function Projetos() {
 
       <button 
         onClick={() => { limpar(); setModalAberto(true); }} 
-        style={{ marginBottom: '10px', padding: '10px 15px', background: '#27ae60', color: '#fff', border: 'none', cursor: 'pointer', borderRadius: '4px' }}
+        style={{ marginBottom: '10px', padding: '10px 15px', background: '#27ae60', color: '#fff', border: '#none', cursor: 'pointer', borderRadius: '4px' }}
       >
         + Novo Projeto
       </button>
@@ -205,6 +208,7 @@ export default function Projetos() {
 
       <Tabela 
         colunas={colunasTabela} 
+        chaves={chavesMapeadas}
         dados={lista} 
         onEditar={prepararEdicao} 
         onExcluir={excluir} 
