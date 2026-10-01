@@ -14,7 +14,7 @@ export default function App() {
         <div style={{ flex: 1 }}>
           <Routes>
             <Route path="/" element={<Instituicoes />} />
-            <Route path="/voluntarios" element={<Participantes />} /> {}
+            <Route path="/voluntarios" element={<Participantes />} />
             <Route path="/projetos" element={<Projetos />} />
           </Routes>
         </div>
