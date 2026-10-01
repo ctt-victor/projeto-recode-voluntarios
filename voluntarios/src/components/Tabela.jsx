@@ -1,4 +1,4 @@
-export default function Tabela({ colunas, dados, onEditar, onExcluir }) {
+export default function Tabela({ colunas, dados, chaves, onEditar, onExcluir }) {
   return (
     <div style={{ overflowX: 'auto', marginTop: '20px' }}>
       <table style={{
@@ -27,19 +27,17 @@ export default function Tabela({ colunas, dados, onEditar, onExcluir }) {
             </tr>
           ) : (
             dados.map((item) => (
-              <tr key={item.id} style={{ borderBottom: '1px solid #e0e0e0', transition: 'background 0.2s' }}>
-                {/* Preenche as colunas dinamicamente baseado nas chaves do objeto */}
-                {Object.keys(item).map((chave, i) => {
-                  if (chave === 'id') return null; // Não exibe o ID na tabela
-                  return (
-                    <td key={i} style={{ padding: '12px 15px', color: '#333' }}>
-                      {item[chave]}
-                    </td>
-                  );
-                })}
+              <tr key={item.id} style={{ borderBottom: '1px solid #e0e0e0' }}>
+                {}
+                {chaves.map((chave, i) => (
+                  <td key={i} style={{ padding: '12px 15px', color: '#333' }}>
+                    {}
+                    {item[chave] instanceof Object ? JSON.stringify(item[chave]) : String(item[chave] ?? '')}
+                  </td>
+                ))}
                 
-                {/* Botões de Ação */}
-                <td style={{ padding: '12px 15px', textAlign: 'center' }}>
+                {}
+                <td style={{ padding: '12px 15px', textAlign: 'center', whiteSpace: 'nowrap' }}>
                   <button 
                     onClick={() => onEditar(item)}
                     style={{
