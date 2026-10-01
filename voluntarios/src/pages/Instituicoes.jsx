@@ -5,9 +5,9 @@ import Tabela from '../components/Tabela';
 export default function Instituicoes() {
   const [lista, setLista] = useState([]);
   const [nome, setNome] = useState('');
-  const [tipo, setTipo] = useState(''); // Agora usa select
-  const [responsavel, setResponsavel] = useState('');
+  const [cnpj, setCnpj] = useState('');
   const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
   const [idEditando, setIdEditando] = useState(null);
   const [modalAberto, setModalAberto] = useState(false);
 
@@ -29,7 +29,14 @@ export default function Instituicoes() {
 
   async function salvar(evento) {
     evento.preventDefault();
-    const objeto = { nome, tipo, responsavel, email };
+    
+   
+    const objeto = { 
+      nome, 
+      cnpj, 
+      email, 
+      telefone 
+    };
 
     const metodo = idEditando ? 'PUT' : 'POST';
     const endpoint = idEditando ? `${URL}/${idEditando}` : URL;
@@ -61,22 +68,26 @@ export default function Instituicoes() {
   function prepararEdicao(item) {
     setIdEditando(item.id);
     setNome(item.nome);
-    setTipo(item.tipo);
-    setResponsavel(item.responsavel);
+    setCnpj(item.cnpj || '');
     setEmail(item.email);
+    setTelefone(item.telefone || '');
     setModalAberto(true);
   }
 
   function limpar() {
     setIdEditando(null);
     setNome('');
-    setTipo('');
-    setResponsavel('');
+    setCnpj('');
     setEmail('');
+    setTelefone('');
     setModalAberto(false);
   }
 
-  const colunasTabela = ["Nome", "Tipo", "Responsável", "E-mail"];
+ 
+  const colunasTabela = ["Nome", "CNPJ", "E-mail", "Telefone"];
+  
+ 
+  const chavesMapeadas = ["nome", "cnpj", "email", "telefone"];
 
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial' }}>
@@ -102,35 +113,31 @@ export default function Instituicoes() {
             style={{ padding: '8px' }} 
           />
           
-          {/* Select para o tipo de Instituição */}
-          <select 
-            value={tipo} 
-            onChange={e => setTipo(e.target.value)} 
-            required 
-            style={{ padding: '8px' }}
-          >
-            <option value="">Selecione o Tipo</option>
-            <option value="Escola">Escola</option>
-            <option value="ONG">ONG</option>
-            <option value="Fundação">Fundação</option>
-            <option value="Associação">Associação</option>
-          </select>
-
           <input 
             type="text" 
-            placeholder="Responsável" 
-            value={responsavel} 
-            onChange={e => setResponsavel(e.target.value)} 
+            placeholder="00.000.000/0001-00" 
+            value={cnpj} 
+            maxLength={18}
+            onChange={e => setCnpj(e.target.value)} 
+            required 
+            style={{ padding: '8px' }} 
+          />
+
+          <input 
+            type="email" 
+            placeholder="E-mail de Contato" 
+            value={email} 
+            onChange={e => setEmail(e.target.value)} 
             required 
             style={{ padding: '8px' }} 
           />
           
           <input 
-            type="email" 
-            placeholder="E-mail" 
-            value={email} 
-            onChange={e => setEmail(e.target.value)} 
-            required 
+            type="text" 
+            placeholder="(00) 00000-0000" 
+            value={telefone} 
+            onChange={e => setTelefone(e.target.value)} 
+            required
             style={{ padding: '8px' }} 
           />
 
@@ -142,6 +149,7 @@ export default function Instituicoes() {
 
       <Tabela 
         colunas={colunasTabela} 
+        chaves={chavesMapeadas}
         dados={lista} 
         onEditar={prepararEdicao} 
         onExcluir={excluir} 
